@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   getComments,
@@ -8,7 +9,8 @@ import {
 import { FormInput, FormTextArea } from './components/Form'
 import { Results } from './components/Results'
 
-function App() {
+export default function App() {
+  const formRef = useRef<HTMLFormElement>(null)
   const { data, isLoading, error } = useQuery<CommentWithId[]>(
     ['comments'],
     getComments
@@ -57,7 +59,14 @@ function App() {
     const title = data.get('title')?.toString() ?? ''
 
     if (title !== '' && message !== '') {
-      mutate({ title, message })
+      mutate(
+        { title, message },
+        {
+          onSuccess: () => {
+            formRef.current?.reset()
+          }
+        }
+      )
     }
   }
 
@@ -70,6 +79,7 @@ function App() {
       </div>
       <div className='col-span-1 p-8 bg-black'>
         <form
+          ref={formRef}
           className={`${
             isLoadingMutation ? 'opacity-40' : ''
           } block max-w-xl px-4 m-auto`}
@@ -90,5 +100,3 @@ function App() {
     </main>
   )
 }
-
-export default App
