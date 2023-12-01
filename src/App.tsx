@@ -1,4 +1,3 @@
-import './App.css'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   getComments,
@@ -66,7 +65,7 @@ function App() {
     <main className='grid h-screen grid-cols-2'>
       <div className='col-span-1 p-8 bg-white'>
         {isLoading && <strong>Loading...</strong>}
-        {error != null && <strong>Stomething went wrong</strong>}
+        {error != null && <strong>Something went wrong</strong>}
         <Results data={data} />
       </div>
       <div className='col-span-1 p-8 bg-black'>
